@@ -58,11 +58,6 @@ namespace FlickrSync
 
 			CalcSync();
 			
-			if(FlickrSync.autorun){
-				// Autosync
-				startThreadExecuteSync();
-				Finish();
-			}
 		}
 
 		private void UpdateThumbnails()
@@ -689,23 +684,30 @@ namespace FlickrSync
 							si.item_id = lvi.Index;
 							SyncItems.Add(si);
 							
-							if(FlickrSync.autorun){
-								if(SyncItems.Count >100 ){
-									//No more 100
-									break;
-								}
-							}
-							
-							
 						}
+					}
+				}
+				
+				if(FlickrSync.autorun){
+					if(SyncItems.Count >100 ){
+						//No more 100
+						break;
 					}
 				}
 			}
 
-			FlickrSync.Log(FlickrSync.LogLevel.LogAll, "Prepared Synchronization successful");
+			FlickrSync.Log(FlickrSync.LogLevel.LogAll, "Prepared Synchronization successful Total items:" + SyncItems.Count);
 
 			Flickr.CacheDisabled = false;
 			this.Cursor = Cursors.Default;
+			
+			if(FlickrSync.autorun){
+				// Autosync
+				startThreadExecuteSync();
+				
+			}
+			
+			
 		}
 
 		private void SyncView_Load(object sender, EventArgs e)
@@ -1286,10 +1288,6 @@ namespace FlickrSync
 
 		private void buttonSync_Click(object sender, EventArgs e)
 		{
-			labelSync.Text = "Synchronizing. Please Wait...";
-			buttonSync.Visible=false;
-
-			this.Text = "FlickrSync Synchronizing...0%";
 
 			startThreadExecuteSync();
 		}
@@ -1298,6 +1296,12 @@ namespace FlickrSync
 		/// Run Thread
 		/// </summary>
 		private void startThreadExecuteSync(){
+			labelSync.Text = "Synchronizing. Please Wait...";
+			buttonSync.Visible=false;
+
+			this.Text = "FlickrSync Synchronizing...0%";
+
+			
 			ThreadStart ts = new ThreadStart(ExecuteSync);
 			SyncThread = new Thread(ts);
 			SyncStarted = true;
@@ -1333,6 +1337,7 @@ namespace FlickrSync
 					{
 						if(folder.FolderPath ==  temp) go =true;
 						if(go)	result.Add(folder);
+						
 					}
 				}
 			}
