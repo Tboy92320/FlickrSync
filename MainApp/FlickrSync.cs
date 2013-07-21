@@ -26,7 +26,7 @@ namespace FlickrSync
         static public LocalInfo li;
         static public RemoteInfo ri;
         static public string user;
-        static public bool autorun = false;
+        static public bool autorun = true;
         static public MessagesLevel messages_level = MessagesLevel.MessagesAll;
         static public LogLevel log_level = LogLevel.LogNone;
         Point MouseDownPos;

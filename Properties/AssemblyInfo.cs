@@ -5,12 +5,12 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("FlickrSync")]
+[assembly: AssemblyTitle("FlickrSync-Malys")]
 [assembly: AssemblyDescription("FlickrSync is an application to synchronize your local folders with Flickr")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Pedro Geada")]
 [assembly: AssemblyProduct("FlickrSync")]
-[assembly: AssemblyCopyright("Copyright ©  2007-2009")]
+[assembly: AssemblyCopyright("Copyright ©  2007-2013")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -29,5 +29,5 @@ using System.Runtime.InteropServices;
 //      Build Number
 //      Revision
 //
-[assembly: AssemblyVersion("0.8.5.2")]
-[assembly: AssemblyFileVersion("0.8.5.2")]
+[assembly: AssemblyVersion("0.9.0.0")]
+[assembly: AssemblyFileVersion("0.9.0.0")]
