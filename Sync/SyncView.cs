@@ -689,8 +689,8 @@ namespace FlickrSync
 				}
 				
 				if(FlickrSync.autorun){
-					if(SyncItems.Count >100 ){
-						//No more 100
+											
+					if(SyncItems.Count > int.Parse(Properties.Settings.Default.ItemLimit) &&  int.Parse(Properties.Settings.Default.ItemLimit)> 0){
 						break;
 					}
 				}
