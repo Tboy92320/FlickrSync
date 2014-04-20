@@ -6,7 +6,7 @@ using System.Globalization;
 
 namespace FlickrSync
 {
-    public class SyncFolder
+	public class SyncFolder:ICloneable
     {
         public enum Methods { SyncFilename = 0, SyncDateTaken, SyncTitleOrFilename };
         public enum FilterTypes { FilterNone = 0, FilterIncludeTags, FilterStarRating };
@@ -23,6 +23,9 @@ namespace FlickrSync
         public int FilterStarRating;
         public FlickrSync.Permissions Permission;
         public bool NoDelete;
+        
+        //Add N-1 SubFolder
+        public bool Children;
         public bool NoDeleteTags;
         public OrderTypes OrderType;
         public bool NoInitialReplace;
@@ -44,6 +47,7 @@ namespace FlickrSync
             NoDeleteTags = Properties.Settings.Default.NoDeleteTags;
             OrderType = OrderTypes.OrderDefault;
             NoInitialReplace = false;
+            Children = Properties.Settings.Default.Children;
         }
 
         public SyncFolder(string pFolderPath)
@@ -63,6 +67,7 @@ namespace FlickrSync
             NoDeleteTags = Properties.Settings.Default.NoDeleteTags;
             OrderType = OrderTypes.OrderDefault;
             NoInitialReplace = false;
+            Children = Properties.Settings.Default.Children;
         }
 
         static public Methods StringToMethod(string str)
@@ -130,6 +135,11 @@ namespace FlickrSync
                 xml = xml + "    <NoDelete>1</NoDelete>\r";
             else
                 xml = xml + "    <NoDelete>0</NoDelete>\r";
+            
+            if (Children)
+                xml = xml + "    <Children>1</Children>\r";
+            else
+                xml = xml + "    <Children>0</Children>\r";
 
             if (NoDeleteTags)
                 xml = xml + "    <NoDeleteTags>1</NoDeleteTags>\r";
@@ -147,6 +157,33 @@ namespace FlickrSync
             
             return xml;
         }
+        
+        /***
+         * Clone Implementation
+         * */
+        public object Clone(){
+        	SyncFolder clone=new SyncFolder();
+        	clone.FolderPath = FolderPath;
+            clone.LastSync = LastSync;
+
+            clone.SetId = SetId;
+            clone.SetTitle = SetTitle;
+            clone.SetDescription = SetDescription;
+            clone.SyncMethod = SyncMethod;
+            clone.FilterType = FilterType;
+            clone.FilterTags = FilterTags;
+            clone.FilterStarRating = FilterStarRating;
+            clone.Permission = Permission;
+            clone.NoDelete = NoDelete;
+            clone.NoDeleteTags = NoDeleteTags;
+            clone.OrderType = OrderType;
+            clone.NoInitialReplace = NoInitialReplace;
+            
+            clone.Children = Properties.Settings.Default.Children;
+            
+            return clone;
+        }
+        
 
         public void LoadFromXPath(XPathNavigator nav)
         {
@@ -193,6 +230,7 @@ namespace FlickrSync
                     else if (nav.Value == "PermPrivate") Permission = FlickrSync.Permissions.PermPrivate;
                 }
                 else if (nav.Name == "NoDelete") NoDelete = nav.ValueAsBoolean;
+                else if (nav.Name == "Children") Children = nav.ValueAsBoolean;
                 else if (nav.Name == "NoDeleteTags") NoDeleteTags = nav.ValueAsBoolean;
                 else if (nav.Name == "OrderType")
                 {

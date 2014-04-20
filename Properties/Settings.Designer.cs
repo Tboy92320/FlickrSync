@@ -185,6 +185,19 @@ namespace FlickrSync.Properties {
 			}
 		}
 		
+				
+		[global::System.Configuration.UserScopedSettingAttribute()]
+		[global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+		[global::System.Configuration.DefaultSettingValueAttribute("False")]
+		public bool Children {
+			get {
+				return ((bool)(this["Children"]));
+			}
+			set {
+				this["Children"] = value;
+			}
+		}
+		
 		[global::System.Configuration.UserScopedSettingAttribute()]
 		[global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
 		[global::System.Configuration.DefaultSettingValueAttribute("False")]
