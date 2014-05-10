@@ -10,7 +10,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Pedro Geada - Forked by Malys")]
 [assembly: AssemblyProduct("FlickrSync")]
-[assembly: AssemblyCopyright("Copyright © 2007-2014")]
+[assembly: AssemblyCopyright("Copyright ©2014")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
