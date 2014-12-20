@@ -40,14 +40,14 @@ namespace FlickrSync
             Photo p2 = (Photo)y;
             int order1 = Int32.MaxValue, order2 = Int32.MaxValue;
 
-            String p1ct = p1.CleanTags.ToLower();
+            String p1ct = p1.MachineTags.ToLower();
             p1ct = p1ct.Replace("flickrsync:order:", "flickrsync:order=");
 
             // FlickrNet is not yet supporting MachineTags fields so we use CleanTags
             int pos = p1ct.IndexOf("flickrsync:order=");
             if (pos >= 0)
             {
-                string str = p1.CleanTags.Substring(pos + 17);
+                string str = p1.MachineTags.Substring(pos + 17);
                 str.Trim();
                 pos = str.IndexOf(' ');
                 if (pos > 0)
@@ -57,13 +57,13 @@ namespace FlickrSync
                 order1 = Convert.ToInt32(str);
             }
 
-            String p2ct = p2.CleanTags.ToLower();
+            String p2ct = p2.MachineTags.ToLower();
             p2ct = p2ct.Replace("flickrsync:order:", "flickrsync:order=");
 
             pos = p2ct.IndexOf("flickrsync:order=");
             if (pos >= 0)
             {
-                string str = p2.CleanTags.Substring(pos + 17);
+                string str = p2.MachineTags.Substring(pos + 17);
                 str.Trim();
                 pos = str.IndexOf(' ');
                 if (pos > 0)

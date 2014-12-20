@@ -66,7 +66,6 @@ namespace FlickrSync
             comboBoxPermissions.SelectedIndex = (int)sf.Permission;
             checkBoxNoDelete.Checked = sf.NoDelete;
             checkBoxNoDeleteTags.Checked = sf.NoDeleteTags;
-            checkBoxChildren.Checked = sf.Children;
             comboBoxOrderType.SelectedIndex = (int)sf.OrderType;
             checkBoxNoInitialReplace.Checked = sf.NoInitialReplace;
 
@@ -161,7 +160,6 @@ namespace FlickrSync
             sf.FilterStarRating = star_rating;
             sf.NoDelete = checkBoxNoDelete.Checked;
             sf.NoDeleteTags = checkBoxNoDeleteTags.Checked;
-            sf.Children = checkBoxChildren.Checked;
             sf.OrderType = (SyncFolder.OrderTypes)comboBoxOrderType.SelectedIndex;
             sf.NoInitialReplace = checkBoxNoInitialReplace.Checked;
 

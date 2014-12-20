@@ -12,23 +12,22 @@ namespace FlickrSync
 {
     public class RemoteInfo
     {
-        Flickr f;
-        Photoset[] sets;
-        public delegate void SetProgressType(int value);
+        Flickr f=null;
+        PhotosetCollection sets;
+        public delegate void SetProgressType(long value);
         SetProgressType progress = null;
+        WebClient webClient;
 
         public RemoteInfo()
         {
             try
             {
-                f = new Flickr(Properties.Settings.Default.FlickrApiKey, Properties.Settings.Default.FlickrShared, Properties.Settings.Default.FlickrToken);
-                f.Proxy = FlickrSync.GetProxy(true);
-                f.OnUploadProgress += new Flickr.UploadProgressHandler(Flickr_OnUploadProgress);
-                sets = f.PhotosetsGetList().PhotosetCollection;
-                if (sets == null)
-                    sets = new Photoset[0];
-
-                string user = User();  //force access to check connection
+                webClient = new WebClient();
+                CreateFlickrObject();
+            }
+            catch (FlickrNet.Exceptions.LoginFailedInvalidTokenException invalidTokenEx)
+            {
+                throw invalidTokenEx;
             }
             catch (Exception ex)
             {
@@ -36,20 +35,44 @@ namespace FlickrSync
             }
         }
 
+        private void CreateFlickrObject()
+        {
+            f = new Flickr(Properties.Settings.Default.FlickrApiKey, Properties.Settings.Default.FlickrShared);
+            OAuthAccessToken oauth = Properties.Settings.Default.OAuthToken;
+            f.OAuthAccessToken = oauth.Token;
+            f.OAuthAccessTokenSecret = oauth.TokenSecret;
+
+            f.Proxy = FlickrSync.GetProxy(true);
+            f.OnUploadProgress += new EventHandler<FlickrNet.UploadProgressEventArgs>(Flickr_OnUploadProgress);
+            sets = f.PhotosetsGetList();
+            if (sets == null)
+                sets = new PhotosetCollection();
+
+            string user = User();  //force access to check connection
+        }
+
         public string User()
         {
-            return f.AuthCheckToken(Properties.Settings.Default.FlickrToken).User.Username;
+            OAuthAccessToken oauth=Properties.Settings.Default.OAuthToken;
+            if (oauth != null)
+                return oauth.Username;
+            else
+                return "";
         }
 
         public string UserId()
         {
-            return f.AuthCheckToken(Properties.Settings.Default.FlickrToken).User.UserId;
+            OAuthAccessToken oauth = Properties.Settings.Default.OAuthToken;
+            if (oauth != null)
+                return oauth.UserId;
+            else
+                return "";
         }
 
         public void Reload()
         {
             Flickr.CacheDisabled = true;
-            sets = f.PhotosetsGetList().PhotosetCollection;
+            sets = f.PhotosetsGetList();
             Flickr.CacheDisabled = false;
         }
 
@@ -57,21 +80,21 @@ namespace FlickrSync
         {
             List <Photo> PhotoList = new List<Photo>();          
             int nPage = 1;
-            Photo[] zPhotoPage;
+            PhotosetPhotoCollection zPhotoPage;
 
             do {
-                zPhotoPage = f.PhotosetsGetPhotos(SetId,nPage, 500).PhotoCollection;
+                zPhotoPage = f.PhotosetsGetPhotos(SetId, PhotoSearchExtras.DateTaken | PhotoSearchExtras.DateUploaded | PhotoSearchExtras.Media, nPage, 500);
                 
-                for (int i=0; i<zPhotoPage.GetLength(0); i++)
+                for (int i=0; i<zPhotoPage.Count; i++)
                     PhotoList.Add(zPhotoPage[i]);
 
                 nPage++;
-            } while (zPhotoPage.GetLength(0)==500);
+            } while (zPhotoPage.Count==500);
 
             return PhotoList.ToArray();
         }
 
-        public Photoset[] GetAllSets()
+        public PhotosetCollection GetAllSets()
         {
             return sets;
         }
@@ -123,7 +146,8 @@ namespace FlickrSync
         {
             try
             {
-                return Bitmap.FromStream(f.DownloadPicture(ps.PhotosetSquareThumbnailUrl));
+                MemoryStream stream = new MemoryStream(webClient.DownloadData(ps.PhotosetSquareThumbnailUrl));
+                return Bitmap.FromStream(stream);
             }
             catch (Exception)
             {
@@ -139,7 +163,8 @@ namespace FlickrSync
 
         public Stream PhotoThumbnail(string photoid)
         {
-            return f.DownloadPicture(f.PhotosGetInfo(photoid).SquareThumbnailUrl);
+            MemoryStream stream = new MemoryStream(webClient.DownloadData(f.PhotosGetInfo(photoid).SquareThumbnailUrl));
+            return stream;
         }
 
         public string UploadPicture(string filename,string title,string description,ArrayList tags,FlickrSync.Permissions permission)
@@ -189,7 +214,7 @@ namespace FlickrSync
             {
                 foreach (string stag in specialtags)
                 {
-                    PhotoInfoTag[] taglist=f.TagsGetListPhoto(id);
+                    System.Collections.ObjectModel.Collection<PhotoInfoTag> taglist = f.TagsGetListPhoto(id);
                     foreach (PhotoInfoTag pit in taglist)
                         if (pit.Raw == stag)
                             f.PhotosRemoveTag(pit.TagId);
@@ -230,15 +255,19 @@ namespace FlickrSync
                 else if (stag2.Contains("flickrsync=perm=public")) permission = FlickrSync.Permissions.PermPublic;
             }
 
+            //TODO: Set with real user default permissions
+            if (permission == FlickrSync.Permissions.PermDefault)
+                permission = FlickrSync.Permissions.PermFamilyFriends;
+                
             f.PhotosSetPerms(id,
                 permission == FlickrSync.Permissions.PermPublic,
                 permission == FlickrSync.Permissions.PermFriends || permission == FlickrSync.Permissions.PermFamilyFriends,
                 permission == FlickrSync.Permissions.PermFamily || permission == FlickrSync.Permissions.PermFamilyFriends,
                 PermissionComment.Everybody, PermissionAddMeta.Everybody);
 
-            string user=f.AuthCheckToken(Properties.Settings.Default.FlickrToken).User.UserId;
+            string user=UserId();
 
-            PhotoInfoTag[] ftags = f.TagsGetListPhoto(id); //.Tags.TagCollection;
+            System.Collections.ObjectModel.Collection<PhotoInfoTag> ftags = f.TagsGetListPhoto(id); //.Tags.TagCollection;
 
             if (ftags != null)
             {
@@ -314,14 +343,14 @@ namespace FlickrSync
         private void Flickr_OnUploadProgress(object sender, UploadProgressEventArgs e)
         {
             if (progress != null)
-                progress(e.Bytes);
+                progress(e.BytesSent);
         }
 
         public long MaxFileSize()
         {
             try
             {
-                return f.PeopleGetUploadStatus().FilesizeMax;
+                return f.PeopleGetUploadStatus().FileSizeMax;
             }
             catch (Exception)
             {

@@ -17,11 +17,6 @@ namespace Common.Controls
         {
             return false;
         }
-        
-        public virtual bool EnableChildren(string path)
-        {
-            return false;
-        }
 
         public virtual bool Includes(string path)
         {
@@ -96,24 +91,15 @@ namespace Common.Controls
             {
                 IsEditing = true;
 
-               
-                if(EnableChildren(path)){
-                	subnode.ForeColor=Color.DarkViolet;
-                }
-                else{
-                	 subnode.ForeColor = Color.Red; 
-                }
-                
+                subnode.ForeColor = Color.Red; 
                 subnode.Checked = true;
                 subnode.ToolTipText = ToolTipText(path);
 
                 IsEditing = false;
             }
 
-            if (Includes(path) && subnode.ForeColor !=Color.DarkViolet ){
-            	 subnode.ForeColor = Color.Red;
-            }
-               
+            if (Includes(path))
+                subnode.ForeColor = Color.Red;
 
             return subnode;
         }
@@ -147,13 +133,7 @@ namespace Common.Controls
             {
                 if (Exists(node.Name))
                 {
-                	if(EnableChildren(node.Name)){
-	                	node.ForeColor = Color.DarkViolet;
-	                }
-	                else{
-	                	node.ForeColor = Color.Red;
-	                }
-                	
+                    node.ForeColor = Color.Red;
                     node.ToolTipText = ToolTipText(node.Name);
                 }
                 else

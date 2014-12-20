@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="3.5">
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
   <PropertyGroup>
     <PlatformTarget>x86</PlatformTarget>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -14,17 +14,18 @@
     <ManifestCertificateThumbprint>4E877021F6DD888EE3500057CEC6A62F7EA0F763</ManifestCertificateThumbprint>
     <ManifestKeyFile>Auxiliary\flickrsync.pfx</ManifestKeyFile>
     <GenerateManifests>true</GenerateManifests>
-    <SignManifests>false</SignManifests>
+    <SignManifests>true</SignManifests>
     <IsWebBootstrapper>false</IsWebBootstrapper>
     <ApplicationIcon>Resources\flickrsync.ico</ApplicationIcon>
     <FileUpgradeFlags>
     </FileUpgradeFlags>
     <OldToolsVersion>3.5</OldToolsVersion>
-    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <UpgradeBackupLocation>
     </UpgradeBackupLocation>
     <TargetZone>LocalIntranet</TargetZone>
     <ApplicationManifest>Properties\app.manifest</ApplicationManifest>
+    <TargetFrameworkProfile />
     <PublishUrl>publish\</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Disk</InstallFrom>
@@ -38,31 +39,21 @@
     <SupportUrl>http://flickrsync.freehostia.com</SupportUrl>
     <ProductName>FlickrSync</ProductName>
     <PublisherName>FlickrSync</PublisherName>
-    <ApplicationRevision>2</ApplicationRevision>
-    <ApplicationVersion>0.8.5.2</ApplicationVersion>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>0.9.1.0</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <PublishWizardCompleted>true</PublishWizardCompleted>
     <BootstrapperEnabled>true</BootstrapperEnabled>
-    <TargetFrameworkProfile />
-    <NoWin32Manifest>False</NoWin32Manifest>
-    <SignAssembly>False</SignAssembly>
-    <DelaySign>False</DelaySign>
-    <RunPostBuildEvent>OnBuildSuccess</RunPostBuildEvent>
-    <AllowUnsafeBlocks>False</AllowUnsafeBlocks>
-    <NoStdLib>False</NoStdLib>
-    <TreatWarningsAsErrors>False</TreatWarningsAsErrors>
-    <IntermediateOutputPath>obj\$(Configuration)\</IntermediateOutputPath>
-    <RunCodeAnalysis>False</RunCodeAnalysis>
-    <SourceAnalysisOverrideSettingsFile>C:\Users\sylvain\AppData\Roaming\ICSharpCode/SharpDevelop4\Settings.SourceAnalysis</SourceAnalysisOverrideSettingsFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
-    <DebugType>Full</DebugType>
-    <Optimize>False</Optimize>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
     <OutputPath>bin\Debug\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -71,17 +62,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
-    <StartAction>Project</StartAction>
-    <CheckForOverflowUnderflow>False</CheckForOverflowUnderflow>
-    <BaseIntermediateOutputPath>obj\</BaseIntermediateOutputPath>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Platform)' == 'AnyCPU' ">
-    <BaseAddress>4194304</BaseAddress>
-    <RegisterForComInterop>False</RegisterForComInterop>
-    <GenerateSerializationAssemblies>Auto</GenerateSerializationAssemblies>
-    <FileAlignment>4096</FileAlignment>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="FlickrNet, Version=2.1.5.19851, Culture=neutral, PublicKeyToken=2491df59efa5d132">
@@ -93,22 +74,14 @@
       <HintPath>..\..\..\Programas\Reference Assemblies\Microsoft\Framework\v3.0\PresentationCore.dll</HintPath>
     </Reference>
     <Reference Include="System" />
-    <Reference Include="System.Core">
-      <RequiredTargetFramework>3.5</RequiredTargetFramework>
-    </Reference>
     <Reference Include="System.Data" />
-    <Reference Include="System.Data.DataSetExtensions">
-      <RequiredTargetFramework>3.5</RequiredTargetFramework>
-    </Reference>
     <Reference Include="System.Deployment" />
     <Reference Include="System.Design" />
     <Reference Include="System.DirectoryServices" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xaml" />
     <Reference Include="System.Xml" />
-    <Reference Include="System.Xml.Linq">
-      <RequiredTargetFramework>3.5</RequiredTargetFramework>
-    </Reference>
     <Reference Include="ThumbDBLib, Version=1.0.2302.22260, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>.\ThumbDBLib.dll</HintPath>
@@ -124,6 +97,12 @@
     </Compile>
     <Compile Include="Auxiliary\AboutBox1.Designer.cs">
       <DependentUpon>AboutBox1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Auxiliary\AuthBox.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Auxiliary\AuthBox.Designer.cs">
+      <DependentUpon>AuthBox.cs</DependentUpon>
     </Compile>
     <Compile Include="Auxiliary\Login.cs">
       <SubType>Form</SubType>
@@ -176,6 +155,9 @@
     <EmbeddedResource Include="Auxiliary\AboutBox1.resx">
       <DependentUpon>AboutBox1.cs</DependentUpon>
       <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Auxiliary\AuthBox.resx">
+      <DependentUpon>AuthBox.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Auxiliary\Login.resx">
       <SubType>Designer</SubType>
@@ -242,7 +224,7 @@
   <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
       <Visible>False</Visible>
-      <ProductName>.NET Framework Client Profile</ProductName>
+      <ProductName>.NET Framework 3.5 SP1 Client Profile</ProductName>
       <Install>false</Install>
     </BootstrapperPackage>
     <BootstrapperPackage Include="Microsoft.Net.Framework.2.0">
@@ -277,7 +259,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Resources\check.png" />
-    <Content Include="Resources\skip.png" />
     <Content Include="Resources\default.gif" />
     <Content Include="Resources\delete.gif" />
     <Content Include="Resources\Error.png" />

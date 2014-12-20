@@ -26,6 +26,7 @@ namespace FlickrSync
         double? GeoLat;
         double? GeoLong;
         int StarRating;
+        string Author;
 
         public ImageInfo()
         {
@@ -39,6 +40,7 @@ namespace FlickrSync
             FileName = "";
             GeoLat = GeoLong = null;
             StarRating = 0;
+            Author = "";
         }
 
         public void Load(string filename, FileTypes type)
@@ -53,6 +55,7 @@ namespace FlickrSync
             FileName = filename;
             GeoLat = GeoLong = null;
             StarRating = 0;
+            Author = "";
 
             if (type == FileTypes.FileTypeUnknown)
             {
@@ -83,30 +86,74 @@ namespace FlickrSync
                         JpegBitmapDecoder JpegDecoder = new JpegBitmapDecoder(pictureStream, BitmapCreateOptions.None, BitmapCacheOption.None);
                         bitmapMetadata = (BitmapMetadata)JpegDecoder.Frames[0].Metadata;
 
-                        if (bitmapMetadata.Keywords != null)
+                        /* InPlaceBitmapMetadataWriter writer = JpegDecoder.Frames[0].CreateInPlaceBitmapMetadataWriter();
+                        writer.Comment = writer.Title;
+                        writer.TrySave();*/
+
+                        // Try getting keywords first from XMP
+                        int xmpkeywordindex=0;
+                        do
+                        {
+                            try
+                            {
+                                string keyword = (string)bitmapMetadata.GetQuery(@"/xmp/dc:subject/{ushort=" + xmpkeywordindex.ToString() + "}");
+                                if (string.IsNullOrEmpty(keyword))
+                                    break;
+
+                                Tags.Add(keyword);
+                            }
+                            catch (Exception)
+                            {
+                                break;
+                            }
+
+                            xmpkeywordindex++;
+                        } while (true);
+
+                        // If XMP had no keywords, get it from IPTC Keywords
+                        if (bitmapMetadata.Keywords != null && Tags.Count==0)
                         {
                             foreach (string tag in bitmapMetadata.Keywords)
                                 Tags.Add(tag);
                         }
 
-                        Title = bitmapMetadata.Title;
-                        Description = bitmapMetadata.Comment;
+                        Title = (string)bitmapMetadata.GetQuery(@"/xmp/dc:title/{ushort=0}");
+                        if (string.IsNullOrEmpty(Title))
+                            Title = bitmapMetadata.Title;
+
+                        Description = (string)bitmapMetadata.GetQuery(@"/xmp/dc:description/{ushort=0}");
+                        if (string.IsNullOrEmpty(Description))
+                            Description = bitmapMetadata.Comment;
+
                         if (bitmapMetadata.DateTaken != null)
                             DateTaken = DateTime.Parse(bitmapMetadata.DateTaken);
 
-                        //City = (string)bitmapMetadata.GetQuery(@"/xmp/<xmpbag>photoshop:City");
-                        City = (string)bitmapMetadata.GetQuery(@"/app13/irb/8bimiptc/iptc/city");
+                        Author = (string)bitmapMetadata.GetQuery(@"/xmp/dc:creator/{ushort=0}");
+                        if (string.IsNullOrEmpty(Author) && bitmapMetadata.Author.Count>0)
+                            Author = bitmapMetadata.Author[0];
+
+                        City = (string)bitmapMetadata.GetQuery(@"/xmp/<xmpbag>photoshop:City");
+                        if (string.IsNullOrEmpty(City))
+                            City = (string)bitmapMetadata.GetQuery(@"/app13/irb/8bimiptc/iptc/city");
+
                         if (City == null)
                             City = "";
 
-                        Sublocation = (string)bitmapMetadata.GetQuery(@"/app13/irb/8bimiptc/iptc/sub-location");
+                        Sublocation = (string)bitmapMetadata.GetQuery(@"/xmp/<xmpbag>photoshop:Location");
+                        if (string.IsNullOrEmpty(Sublocation))
+                            Sublocation = (string)bitmapMetadata.GetQuery(@"/app13/irb/8bimiptc/iptc/sub-location");
+
                         if (Sublocation == null)
                             Sublocation = "";
 
-                        //Country = (string)bitmapMetadata.GetQuery(@"/xmp/<xmpbag>photoshop:Country");
-                        Country = (string)bitmapMetadata.GetQuery(@"/app13/irb/8bimiptc/iptc/country\/primary location name");
+                        Country = (string)bitmapMetadata.GetQuery(@"/xmp/<xmpbag>photoshop:Country");
+                        if (string.IsNullOrEmpty(Country))
+                            Country = (string)bitmapMetadata.GetQuery(@"/app13/irb/8bimiptc/iptc/country\/primary location name");
+
                         if (Country == null)
                             Country = "";
+
+                        StarRating = bitmapMetadata.Rating;
 
                         byte[] Version = (byte[])bitmapMetadata.GetQuery(@"/app1/ifd/gps/");
                         if (Version != null)
@@ -130,8 +177,6 @@ namespace FlickrSync
                                     GeoLong = -GeoLong;
                             }
                         }
-
-                        StarRating = bitmapMetadata.Rating;
 
                         break;
 
@@ -306,6 +351,11 @@ namespace FlickrSync
         public int GetStarRating()
         {
             return StarRating;
+        }
+
+        public string GetAuthor()
+        {
+            return Author;
         }
     }
 }

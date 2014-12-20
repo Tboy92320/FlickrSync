@@ -1,10 +1,13 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
 using System.IO;
 
-public class SortLastWriteHelper : IComparer<FileInfo>
+public class sortLastWriteHelper : IComparer
 {
-    public int Compare(FileInfo f1, FileInfo f2)
+    int IComparer.Compare(object x, object y)
     {
+        FileInfo f1 = (FileInfo)x;
+        FileInfo f2 = (FileInfo)y;
+
         if (f1.LastWriteTime > f2.LastWriteTime)
         {
             return 1;

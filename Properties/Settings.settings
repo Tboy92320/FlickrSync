@@ -1,9 +1,19 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<SettingsFile CurrentProfile="(Default)" GeneratedClassNamespace="FlickrSync.Properties" GeneratedClassName="Settings" xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings">
-  <Profiles>
-    <Profile Name="(Default)" />
-  </Profiles>
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="FlickrSync.Properties" GeneratedClassName="Settings">
+  <Profiles />
   <Settings>
+    <Setting Name="FlickrToken" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="FlickrApiKey" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">99835d77b01b776f3115b56180c6c4f4</Value>
+    </Setting>
+    <Setting Name="FlickrShared" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">3433f92c86ec38f3</Value>
+    </Setting>
+    <Setting Name="LocalInfoXml" Type="System.String" Scope="User">
+      <Value Profile="(Default)">&lt;FlickrSync&gt;&lt;/FlickrSync&gt;</Value>
+    </Setting>
     <Setting Name="Extensions" Type="System.Collections.Specialized.StringCollection" Scope="Application">
       <Value Profile="(Default)">&lt;?xml version="1.0" encoding="utf-16"?&gt;
 &lt;ArrayOfString xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema"&gt;
@@ -16,14 +26,14 @@
   &lt;string&gt;bmp&lt;/string&gt;
 &lt;/ArrayOfString&gt;</Value>
     </Setting>
-    <Setting Name="FlickrApiKey" Type="System.String" Scope="Application">
-      <Value Profile="(Default)">99835d77b01b776f3115b56180c6c4f4</Value>
+    <Setting Name="Method" Type="System.String" Scope="User">
+      <Value Profile="(Default)">SyncFilename</Value>
     </Setting>
-    <Setting Name="FlickrShared" Type="System.String" Scope="Application">
-      <Value Profile="(Default)">3433f92c86ec38f3</Value>
+    <Setting Name="NoDelete" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
     </Setting>
-    <Setting Name="FlickrToken" Type="System.String" Scope="User" Roaming="false">
-      <Value Profile="(Default)" />
+    <Setting Name="NoDeleteTags" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
     </Setting>
     <Setting Name="HelpMain" Type="System.String" Scope="Application">
       <Value Profile="(Default)">http://flickrsync.freehostia.com/index.htm</Value>
@@ -31,53 +41,50 @@
     <Setting Name="HelpProperties" Type="System.String" Scope="Application">
       <Value Profile="(Default)">http://flickrsync.freehostia.com/index_properties.htm</Value>
     </Setting>
-    <Setting Name="ItemLimit" Type="System.String" Scope="User" Roaming="false">
-      <Value Profile="(Default)">70</Value>
+    <Setting Name="MessageId" Type="System.String" Scope="User">
+      <Value Profile="(Default)">090130_0000</Value>
     </Setting>
-    <Setting Name="LastFolder" Type="System.String" Scope="User" Roaming="false">
+    <Setting Name="MessageUrl" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">http://flickrsync.freehostia.com/message.htm</Value>
+    </Setting>
+    <Setting Name="UseThumbnailImages" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="ProxyHost" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
-    <Setting Name="LocalInfoXml" Type="System.String" Scope="User" Roaming="false">
-      <Value Profile="(Default)">&lt;FlickrSync&gt;&lt;/FlickrSync&gt;</Value>
+    <Setting Name="ProxyPort" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
     </Setting>
-    <Setting Name="LogFile" Type="System.String" Scope="User" Roaming="false">
-      <Value Profile="(Default)">.log</Value>
+    <Setting Name="ProxyUser" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
     </Setting>
-    <Setting Name="LogLevel" Type="System.String" Scope="User" Roaming="false">
-      <Value Profile="(Default)">LogBasic</Value>
+    <Setting Name="ProxyPass" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
     </Setting>
-    <Setting Name="MessageLevel" Type="System.String" Scope="User" Roaming="false">
+    <Setting Name="ProxyUse" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="MessageLevel" Type="System.String" Scope="User">
       <Value Profile="(Default)">MessagesAll</Value>
     </Setting>
-    <Setting Name="Method" Type="System.String" Scope="User" Roaming="false">
-      <Value Profile="(Default)">SyncFilename</Value>
+    <Setting Name="LogLevel" Type="System.String" Scope="User">
+      <Value Profile="(Default)">LogNone</Value>
     </Setting>
-    <Setting Name="NoDelete" Type="System.Boolean" Scope="User" Roaming="false">
-      <Value Profile="(Default)">False</Value>
+    <Setting Name="LogFile" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
     </Setting>
-    <Setting Name="NoDeleteTags" Type="System.Boolean" Scope="User" Roaming="false">
-      <Value Profile="(Default)">False</Value>
-    </Setting>
-    <Setting Name="OrderType" Type="System.String" Scope="User" Roaming="false">
+    <Setting Name="OrderType" Type="System.String" Scope="User">
       <Value Profile="(Default)">OrderDefault</Value>
     </Setting>
-    <Setting Name="ProxyHost" Type="System.String" Scope="User" Roaming="false">
+    <Setting Name="AdUrl" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">http://flickrsync.freehostia.com/ad.htm</Value>
+    </Setting>
+    <Setting Name="DonateUrl" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">http://flickrsync.freehostia.com/donate.htm</Value>
+    </Setting>
+    <Setting Name="OAuthToken" Type="FlickrNet.OAuthAccessToken" Scope="User">
       <Value Profile="(Default)" />
-    </Setting>
-    <Setting Name="ProxyPass" Type="System.String" Scope="User" Roaming="false">
-      <Value Profile="(Default)" />
-    </Setting>
-    <Setting Name="ProxyPort" Type="System.String" Scope="User" Roaming="false">
-      <Value Profile="(Default)" />
-    </Setting>
-    <Setting Name="ProxyUse" Type="System.Boolean" Scope="User" Roaming="false">
-      <Value Profile="(Default)">False</Value>
-    </Setting>
-    <Setting Name="ProxyUser" Type="System.String" Scope="User" Roaming="false">
-      <Value Profile="(Default)" />
-    </Setting>
-    <Setting Name="UseThumbnailImages" Type="System.Boolean" Scope="User" Roaming="false">
-      <Value Profile="(Default)">False</Value>
     </Setting>
   </Settings>
 </SettingsFile>

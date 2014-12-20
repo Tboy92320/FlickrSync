@@ -27,8 +27,9 @@ namespace FlickrSync
         
         public string Description;
         public ArrayList Tags;
-       	public double? GeoLat;
+        public double? GeoLat;
         public double? GeoLong;
+        public string Author;
 
         public int item_id;
     }
