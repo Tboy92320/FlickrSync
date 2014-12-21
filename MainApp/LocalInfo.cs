@@ -68,6 +68,15 @@ namespace FlickrSync
             Properties.Settings.Default.LocalInfoXml = GetSyncXML();
             FlickrSync.SaveConfig();
         }
+        
+        private void addChildrenFolder(SyncFolder sf, DirectoryInfo dir){
+        	foreach (DirectoryInfo dri in dir.GetDirectories()){
+        		SyncFolder sfChild=(SyncFolder)sf.Clone();
+        		sfChild.FolderPath=dri.FullName;
+        		SyncFolders.Add(sfChild);
+        	}
+        	
+        }
 
         public void LoadFromXML(string xml)
         {
@@ -96,9 +105,15 @@ namespace FlickrSync
                             FlickrSync.Log(FlickrSync.LogLevel.LogAll, sf.FolderPath + "does not exists");
                     }
                 }
-
+               	//Add Chidren Folder automatically
+				if(sf.Children){
+					addChildrenFolder(sf,dir);
+				}
                 SyncFolders.Add(sf);
             }
+            
+
+                	
 
             iterator = nav.Select("/FlickrSync/PathInfo");
 
@@ -168,6 +183,17 @@ namespace FlickrSync
         public bool Exists(string Path)
         {
             return SyncFolders.IndexOf(new SyncFolder(Path))>=0;
+        }
+        
+        
+        public bool EnableChildren(string Path)
+        {
+        	if(Exists(Path)){
+        		SyncFolder tmp=(SyncFolder)SyncFolders[SyncFolders.IndexOf(new SyncFolder(Path))];
+        		return tmp.Children;
+        	}
+        	
+        	return false;
         }
 
         public bool Includes(string path)

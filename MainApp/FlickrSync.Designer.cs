@@ -228,13 +228,7 @@
             this.ViewLogMenuItem.Text = "View &Log";
             this.ViewLogMenuItem.Paint += new System.Windows.Forms.PaintEventHandler(this.ViewLogMenuItem_Paint);
             this.ViewLogMenuItem.Click += new System.EventHandler(this.ViewLogMenuItem_Click);
-            // 
-            // DonateMenuItem
-            // 
-            this.DonateMenuItem.Name = "DonateMenuItem";
-            this.DonateMenuItem.Size = new System.Drawing.Size(143, 22);
-            this.DonateMenuItem.Text = "&Donate";
-            this.DonateMenuItem.Click += new System.EventHandler(this.DonateMenuItem_Click);
+
             // 
             // toolStripSeparator1
             // 
@@ -323,15 +317,7 @@
             this.labelCalc.TabIndex = 3;
             this.labelCalc.Text = "Preparing Synchronization";
             this.labelCalc.Visible = false;
-            // 
-            // webBrowser1
-            // 
-            this.webBrowser1.Location = new System.Drawing.Point(-200, -200);
-            this.webBrowser1.MinimumSize = new System.Drawing.Size(20, 20);
-            this.webBrowser1.Name = "webBrowser1";
-            this.webBrowser1.Size = new System.Drawing.Size(100, 85);
-            this.webBrowser1.TabIndex = 4;
-            this.webBrowser1.Navigated += new System.Windows.Forms.WebBrowserNavigatedEventHandler(this.webBrowser1_Navigated);
+
             // 
             // statusStrip1
             // 

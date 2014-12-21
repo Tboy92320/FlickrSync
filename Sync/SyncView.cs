@@ -29,7 +29,6 @@ namespace FlickrSync
         ArrayList SyncFolders;
         ArrayList SyncItems;
         static DateTime SyncDate;
-        string AdsUrlPath;
 
         bool SyncStarted = false;
         bool SyncAborted = false;
@@ -54,7 +53,6 @@ namespace FlickrSync
             Tasks = new ArrayList();
             NewSets = new ArrayList();
             SyncFolders = pSyncFolders;
-            AdsUrlPath = "";
 
             CalcSync();
         }
@@ -571,12 +569,28 @@ namespace FlickrSync
                         }
                     }
                 }
-            }
+            
 
-            FlickrSync.Log(FlickrSync.LogLevel.LogAll, "Prepared Synchronization successful");
+				
+				if(FlickrSync.autorun){
+					if(SyncItems.Count > int.Parse(Properties.Settings.Default.ItemLimit) &&  int.Parse(Properties.Settings.Default.ItemLimit)> 0){
+						break;
+					}
+				}
+			}
 
-            Flickr.CacheDisabled = false;
-            this.Cursor = Cursors.Default;
+			FlickrSync.Log(FlickrSync.LogLevel.LogAll, "Prepared Synchronization successful Total items:" + SyncItems.Count);
+
+			Flickr.CacheDisabled = false;
+			this.Cursor = Cursors.Default;
+			
+			if(FlickrSync.autorun){
+				// Autosync
+				startThreadExecuteSync();
+				
+			}
+			
+			
         }
 
         private void SyncView_Load(object sender, EventArgs e)
@@ -1121,45 +1135,11 @@ namespace FlickrSync
             }
         }
 
-        private void buttonSync_Click(object sender, EventArgs e)
-        {
-            labelSync.Text = "Synchronizing. Please Wait...";
-            buttonSync.Visible=false;
-
-            //show ads
-            bool show=true;
-            string hash = FlickrSync.ri.UserId().GetHashCode().ToString("X");
-            foreach (string str in FlickrSync.HashUsers)
-            {
-                if (str == hash)
-                {
-                    show = false;
-                    break;
-                }
-
-                if (str == "VERSION" + System.Reflection.Assembly.GetExecutingAssembly().GetName().Version)
-                {
-                    show = false;
-                    break;
-                }
-            }
-
-            if (show)
-            {
-                webBrowserAds.Height = 70;
-                webBrowserAds.Width = listViewToSync.Width;
-                webBrowserAds.Visible = true;
-                listViewToSync.Height = listViewToSync.Height - webBrowserAds.Height - 5;
-            }
-
-            this.Text = "FlickrSync Synchronizing...0%";
-
-            ThreadStart ts = new ThreadStart(ExecuteSync);
-            SyncThread = new Thread(ts);
-            SyncStarted = true;
-            SyncThread.Start();
-        }
-
+  		private void buttonSync_Click(object sender, EventArgs e)
+		{
+			startThreadExecuteSync();
+		}
+  		
         private void buttonCancel_Click(object sender, EventArgs e)
         {
             SyncAborted = true;
@@ -1198,17 +1178,53 @@ namespace FlickrSync
                 e.Graphics.DrawString(e.Item.Text, listViewToSync.Font, new SolidBrush(e.Item.ForeColor), r2, fmt);
             }
         }
+        		
+		/// <summary>
+		/// Start From the last processed folder
+		/// </summary>
+		/// <returns></returns>
+		private ArrayList performSyncFolders(){
+			ArrayList result=SyncFolders;
+			if(FlickrSync.autorun){
+				string temp =Properties.Settings.Default.LastFolder;
+				bool go=false;
+				
+				if (temp.Length >0){
+					result = new ArrayList();
+					foreach(SyncFolder folder in SyncFolders)
+					{
+						if(folder.FolderPath ==  temp) go =true;
+						if(go)	result.Add(folder);
+						
+					}
+				}
+			}
+			
+			//Security
+			if(result.Count ==0){
+				result=SyncFolders;
+			}
+			
+			return result;
+		}
+		
+				
+		/// <summary>
+		/// Run Thread
+		/// </summary>
+		private void startThreadExecuteSync(){
+			labelSync.Text = "Synchronizing. Please Wait...";
+			buttonSync.Visible=false;
 
-        private void webBrowserAds_Navigating(object sender, WebBrowserNavigatingEventArgs e)
-        {
-            if (webBrowserAds.Visible && e.Url.ToString()!=Properties.Settings.Default.AdUrl && e.Url.LocalPath!=AdsUrlPath)
-            {
-                e.Cancel = true;
-                System.Diagnostics.Process.Start(e.Url.ToString());
-            }
+			this.Text = "FlickrSync Synchronizing...0%";
 
-            if (AdsUrlPath == "")
-                AdsUrlPath = e.Url.LocalPath;
-        }
+			
+			ThreadStart ts = new ThreadStart(ExecuteSync);
+			SyncThread = new Thread(ts);
+			SyncStarted = true;
+			SyncThread.Name = "UploadPhotosThread";
+			SyncThread.Start();
+		}
+		
     }
 }

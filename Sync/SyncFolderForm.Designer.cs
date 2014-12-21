@@ -67,6 +67,7 @@ namespace FlickrSync
             this.pictureBoxStarRating1 = new System.Windows.Forms.PictureBox();
             this.pictureBoxStarRating0 = new System.Windows.Forms.PictureBox();
             this.checkBoxNoInitialReplace = new System.Windows.Forms.CheckBox();
+        	this.checkBoxChildren = new System.Windows.Forms.CheckBox();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxStarRating5)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxStarRating4)).BeginInit();
@@ -464,6 +465,16 @@ namespace FlickrSync
             this.checkBoxNoInitialReplace.Text = "Do not replace items on first Sync";
             this.checkBoxNoInitialReplace.UseVisualStyleBackColor = true;
             // 
+        	// checkBoxChildren
+        	// 
+        	this.checkBoxChildren.AutoSize = true;
+        	this.checkBoxChildren.Location = new System.Drawing.Point(626, 374);
+        	this.checkBoxChildren.Name = "checkBoxChildren";
+        	this.checkBoxChildren.Size = new System.Drawing.Size(156, 17);
+        	this.checkBoxChildren.TabIndex = 32;
+        	this.checkBoxChildren.Text = "Add Children (automatically)";
+        	this.checkBoxChildren.UseVisualStyleBackColor = true;
+        	// 
             // SyncFolderForm
             // 
             this.AcceptButton = this.buttonOK;
@@ -471,55 +482,55 @@ namespace FlickrSync
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.buttonCancel;
             this.ClientSize = new System.Drawing.Size(864, 444);
-            this.Controls.Add(this.checkBoxNoInitialReplace);
-            this.Controls.Add(this.pictureBoxStarRating0);
-            this.Controls.Add(this.pictureBoxStarRating5);
-            this.Controls.Add(this.pictureBoxStarRating4);
-            this.Controls.Add(this.pictureBoxStarRating3);
-            this.Controls.Add(this.pictureBoxStarRating2);
-            this.Controls.Add(this.pictureBoxStarRating1);
-            this.Controls.Add(this.labelStarRating);
-            this.Controls.Add(this.comboBoxOrderType);
-            this.Controls.Add(this.label8);
-            this.Controls.Add(this.buttonCancelAll);
-            this.Controls.Add(this.buttonOKAll);
-            this.Controls.Add(this.buttonHelp);
-            this.Controls.Add(this.checkBoxNoDeleteTags);
-            this.Controls.Add(this.checkBoxNoDelete);
-            this.Controls.Add(this.comboBoxPermissions);
-            this.Controls.Add(this.label7);
-            this.Controls.Add(this.buttonTagList);
-            this.Controls.Add(this.labelTags);
-            this.Controls.Add(this.textBoxTags);
-            this.Controls.Add(this.comboBoxFilterType);
-            this.Controls.Add(this.label6);
-            this.Controls.Add(this.label2);
-            this.Controls.Add(this.buttonCancel);
-            this.Controls.Add(this.buttonOK);
-            this.Controls.Add(this.comboBoxMethod);
-            this.Controls.Add(this.label5);
-            this.Controls.Add(this.groupBox1);
-            this.Controls.Add(this.labelSetTitle);
-            this.Controls.Add(this.labelFolderPath);
-            this.Controls.Add(this.label1);
-            this.Controls.Add(this.listViewSet);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
-            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.Name = "SyncFolderForm";
-            this.Text = "Synchronization Folder Properties";
-            this.Load += new System.EventHandler(this.SyncFolderForm_Load);
-            this.groupBox1.ResumeLayout(false);
-            this.groupBox1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxStarRating5)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxStarRating4)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxStarRating3)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxStarRating2)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxStarRating1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxStarRating0)).EndInit();
-            this.ResumeLayout(false);
-            this.PerformLayout();
-
+        	this.Controls.Add(this.checkBoxNoInitialReplace);
+        	this.Controls.Add(this.pictureBoxStarRating0);
+        	this.Controls.Add(this.pictureBoxStarRating5);
+        	this.Controls.Add(this.pictureBoxStarRating4);
+        	this.Controls.Add(this.pictureBoxStarRating3);
+        	this.Controls.Add(this.pictureBoxStarRating2);
+        	this.Controls.Add(this.pictureBoxStarRating1);
+        	this.Controls.Add(this.labelStarRating);
+        	this.Controls.Add(this.comboBoxOrderType);
+        	this.Controls.Add(this.label8);
+        	this.Controls.Add(this.buttonCancelAll);
+        	this.Controls.Add(this.buttonOKAll);
+        	this.Controls.Add(this.buttonHelp);
+        	this.Controls.Add(this.checkBoxNoDeleteTags);
+        	this.Controls.Add(this.checkBoxNoDelete);
+        	this.Controls.Add(this.comboBoxPermissions);
+        	this.Controls.Add(this.label7);
+        	this.Controls.Add(this.buttonTagList);
+        	this.Controls.Add(this.labelTags);
+        	this.Controls.Add(this.textBoxTags);
+        	this.Controls.Add(this.comboBoxFilterType);
+        	this.Controls.Add(this.label6);
+        	this.Controls.Add(this.label2);
+        	this.Controls.Add(this.buttonCancel);
+        	this.Controls.Add(this.buttonOK);
+        	this.Controls.Add(this.comboBoxMethod);
+        	this.Controls.Add(this.label5);
+        	this.Controls.Add(this.groupBox1);
+        	this.Controls.Add(this.labelSetTitle);
+        	this.Controls.Add(this.labelFolderPath);
+        	this.Controls.Add(this.label1);
+        	this.Controls.Add(this.listViewSet);
+        	this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
+        	this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+        	this.Name = "SyncFolderForm";
+        	this.Text = "Synchronization Folder Properties";
+        	this.Load += new System.EventHandler(this.SyncFolderForm_Load);
+        	this.groupBox1.ResumeLayout(false);
+        	this.groupBox1.PerformLayout();
+        	((System.ComponentModel.ISupportInitialize)(this.pictureBoxStarRating5)).EndInit();
+        	((System.ComponentModel.ISupportInitialize)(this.pictureBoxStarRating4)).EndInit();
+        	((System.ComponentModel.ISupportInitialize)(this.pictureBoxStarRating3)).EndInit();
+        	((System.ComponentModel.ISupportInitialize)(this.pictureBoxStarRating2)).EndInit();
+        	((System.ComponentModel.ISupportInitialize)(this.pictureBoxStarRating1)).EndInit();
+        	((System.ComponentModel.ISupportInitialize)(this.pictureBoxStarRating0)).EndInit();
+        	this.ResumeLayout(false);
+        	this.PerformLayout();
         }
+        private System.Windows.Forms.CheckBox checkBoxChildren;
 
         #endregion
 

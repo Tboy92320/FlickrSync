@@ -160,7 +160,7 @@ namespace FlickrSync.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
         public bool UseThumbnailImages {
             get {
                 return ((bool)(this["UseThumbnailImages"]));
@@ -244,7 +244,7 @@ namespace FlickrSync.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("LogNone")]
+        [global::System.Configuration.DefaultSettingValueAttribute("LogBasic")]
         public string LogLevel {
             get {
                 return ((string)(this["LogLevel"]));
@@ -256,7 +256,7 @@ namespace FlickrSync.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        [global::System.Configuration.DefaultSettingValueAttribute("FlickrSync.log")]
         public string LogFile {
             get {
                 return ((string)(this["LogFile"]));
@@ -277,25 +277,7 @@ namespace FlickrSync.Properties {
                 this["OrderType"] = value;
             }
         }
-        
-        [global::System.Configuration.ApplicationScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("http://flickrsync.freehostia.com/ad.htm")]
-        public string AdUrl {
-            get {
-                return ((string)(this["AdUrl"]));
-            }
-        }
-        
-        [global::System.Configuration.ApplicationScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("http://flickrsync.freehostia.com/donate.htm")]
-        public string DonateUrl {
-            get {
-                return ((string)(this["DonateUrl"]));
-            }
-        }
-        
+                
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         public global::FlickrNet.OAuthAccessToken OAuthToken {
@@ -306,5 +288,42 @@ namespace FlickrSync.Properties {
                 this["OAuthToken"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+		[global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+		[global::System.Configuration.DefaultSettingValueAttribute("False")]
+		public bool Children {
+			get {
+				return ((bool)(this["Children"]));
+			}
+			set {
+				this["Children"] = value;
+			}
+		}
+				
+		[global::System.Configuration.UserScopedSettingAttribute()]
+		[global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+		[global::System.Configuration.DefaultSettingValueAttribute("")]
+		public string LastFolder {
+			get {
+				return ((string)(this["LastFolder"]));
+			}
+			set {
+				this["LastFolder"] = value;
+			}
+		}
+		
+				
+		[global::System.Configuration.UserScopedSettingAttribute()]
+		[global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+		[global::System.Configuration.DefaultSettingValueAttribute("150")]
+		public string ItemLimit {
+			get {
+				return ((string)(this["ItemLimit"]));
+			}
+			set {
+				this["ItemLimit"] = value;
+			}
+		}
     }
 }

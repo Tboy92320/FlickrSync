@@ -10,6 +10,11 @@ namespace Common.Controls
         {
             return FlickrSync.FlickrSync.li.Exists(path);
         }
+        
+        public override bool EnableChildren(string path)
+        {
+            return FlickrSync.FlickrSync.li.EnableChildren(path);
+        }
 
         public override bool Includes(string path)
         {
